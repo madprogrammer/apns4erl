@@ -240,7 +240,7 @@ build_payload(#apns_msg{alert = Alert,
                    {sound, Sound}] ++ Apns_Extra, Extra, Content_Available).
 
 build_payload(Params, Extra, Content_Available) ->
-  apns_mochijson2:encode({[{<<"aps">>,
+  mochijson2:encode({[{<<"aps">>,
                             do_build_payload(Params, Content_Available)} | Extra]}).
 
 do_build_payload(Params, Content_Available) when Content_Available ->

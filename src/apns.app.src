@@ -6,7 +6,8 @@
   {applications, [
                   kernel,
                   stdlib,
-                  ssl
+                  ssl,
+                  mochijson2
                  ]},
   {mod, {apns_app, []}},
   {env, [{apple_host,       "gateway.sandbox.push.apple.com"},
