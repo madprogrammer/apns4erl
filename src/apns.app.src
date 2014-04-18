@@ -6,14 +6,13 @@
   {applications, [
                   kernel,
                   stdlib,
-                  ssl,
-                  mochijson2
+                  ssl
                  ]},
   {mod, {apns_app, []}},
   {env, [{apple_host,       "gateway.sandbox.push.apple.com"},
          {apple_port,       2195},
          {cert_file,        "priv/cert.pem"},
-         {key_file,         undefined},
+         {key_file,         "priv/key.pem"},
          {timeout,          30000},
          {feedback_host,    "feedback.sandbox.push.apple.com"},
          {feedback_port,    2196},

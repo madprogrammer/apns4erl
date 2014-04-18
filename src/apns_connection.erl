@@ -240,7 +240,7 @@ build_payload(#apns_msg{alert = Alert,
                    {sound, Sound}] ++ Apns_Extra, Extra, Content_Available).
 
 build_payload(Params, Extra, Content_Available) ->
-  mochijson2:encode({[{<<"aps">>,
+  jsonx:encode({[{<<"aps">>,
                             do_build_payload(Params, Content_Available)} | Extra]}).
 
 do_build_payload(Params, Content_Available) when Content_Available ->
@@ -280,16 +280,13 @@ do_build_payload([], Payload) ->
   {Payload}.
 
 -spec send_payload(tuple(), binary(), non_neg_integer(), binary(), iolist()) -> ok | {error, term()}.
-send_payload(Socket, MsgId, Expiry, BinToken, Payload) ->
-    BinPayload = list_to_binary(Payload),
+send_payload(Socket, MsgId, Expiry, BinToken, BinPayload) ->
     PayloadLength = erlang:size(BinPayload),
     Packet = [<<1:8, MsgId/binary, Expiry:4/big-unsigned-integer-unit:8,
                 32:16/big,
                 BinToken/binary,
                 PayloadLength:16/big,
                 BinPayload/binary>>],
-    error_logger:info_msg("Sending msg ~p (expires on ~p)~n",
-                         [MsgId, Expiry]),
     ssl:send(Socket, Packet).
 
 hexstr_to_bin(S) ->
